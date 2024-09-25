@@ -10,6 +10,8 @@ import com.projectX.webService.shared.GenericMessage;
 @RestController
 public class UserController {
 
+    
+
     @Autowired
     UserService userService;
 
@@ -18,4 +20,7 @@ public class UserController {
         userService.save(user);
         return new GenericMessage("User is created.");
     }
+
+
+
 }

@@ -1,20 +1,26 @@
 package com.projectX.webService.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.projectX.webService.shared.GenericMessage;
 
 
 @Service
 public class UserService {
 
- @Autowired
- UserRepository userRepository;
+PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
- GenericMessage void save(User user){
+@Autowired
+UserRepository userRepository;
+
+public void save(User user){
+    /* 
+     String encodedPassowrd = passwordEncoder.encode(user.getPassword());
+     user.setPassword(encodedPassowrd);
+     */
+    user.setPassword(passwordEncoder.encode(user.getPassword())); // inline usage.
     userRepository.save(user);
-    return new GenericMessage("user is created");
  }
 
 }
