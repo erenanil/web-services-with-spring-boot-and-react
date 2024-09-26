@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity //When we use this annotation, it will assume that this class has a matching table in the database, or it will create one.
 @Table(name = "users")
@@ -14,8 +15,10 @@ public class User {
     @GeneratedValue //delegate the operation of generating the ID to the database.
     long id;
     
+    @NotBlank
     String username;
-
+    
+    @NotBlank
     String email;
 
     String password;
