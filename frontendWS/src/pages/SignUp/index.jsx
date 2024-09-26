@@ -8,7 +8,8 @@ export function SignUp() {
   const [passwordRepeat, setPasswordRepeat] = useState();
   const [apiProgress, setApiProgress] = useState(false);
   const [successMessage, setSuccessMessage] = useState();
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState({});
+  const [generalError, setGeneralError]= useState();
 
     useEffect(()=> {
       setErrors({})
@@ -18,6 +19,7 @@ export function SignUp() {
   const onSubmit = async (event) => {
     event.preventDefault();
     setSuccessMessage();
+    setGeneralError();
     setApiProgress(true);
     
     try{
@@ -31,6 +33,8 @@ export function SignUp() {
         if(axiosError.response?.data && axiosError.response.data.status === 400)
         {
           setErrors(axiosError.response.data.validationErrors);
+        }else{
+          setGeneralError("Unexpected error occured. Please try again.");
         }
       }finally{
         setApiProgress(false)
@@ -93,6 +97,9 @@ export function SignUp() {
             </div>
             {successMessage && (
               <div className="alert alert-success">{successMessage}</div>
+            )}
+            {generalError && (
+              <div className="alert alert-danger">{generalError}</div>
             )}
 
             <div className="text-center">
