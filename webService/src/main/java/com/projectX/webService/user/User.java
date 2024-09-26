@@ -4,7 +4,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity //When we use this annotation, it will assume that this class has a matching table in the database, or it will create one.
 @Table(name = "users")
@@ -16,11 +19,15 @@ public class User {
     long id;
     
     @NotBlank
+    @Size(min=4, max=255)
     String username;
     
     @NotBlank
+    @Email
     String email;
 
+    @Size(min=8, max=255)
+    @Pattern(regexp ="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$")
     String password;
 
     

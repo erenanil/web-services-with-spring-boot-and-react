@@ -29,6 +29,15 @@ export function SignUp() {
         }
       });
     }, [email])
+    
+    useEffect(()=> {
+      setErrors(function(lastErrors){
+        return{
+          ...lastErrors,
+          password: undefined
+        }
+      });
+    }, [password])
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -68,29 +77,10 @@ export function SignUp() {
 
           <Input id="email" label="E-mail" error={errors.email} onChange= {(event) => setEmail(event.target.value)}/>
 
+          <Input id="password" label="Password" error={errors.password} onChange= {(event) => setPassword(event.target.value)} type = "password"/> 
 
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">
-                Password
-              </label>
-              <input
-                id="password"
-                className="form-control"
-                type="password"
-                onChange={(event) => setPassword(event.target.value)}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="passwordRepeat" className="form-label">
-                Password Repeat
-              </label>
-              <input
-                id="passwordRepeat"
-                className="form-control"
-                type="password"
-                onChange={(event) => setPasswordRepeat(event.target.value)}
-              />
-            </div>
+          <Input id="passwordRepeat" label="Password Repeat" error={errors.passwordRepeat} onChange= {(event) => setPasswordRepeat(event.target.value)} type = "password"/>
+          
             {successMessage && (
               <div className="alert alert-success">{successMessage}</div>
             )}
