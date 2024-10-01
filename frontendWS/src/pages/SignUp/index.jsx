@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { signUp } from "./api";
 import { Input } from "./components/Input";
 
@@ -10,8 +10,8 @@ export function SignUp() {
   const [apiProgress, setApiProgress] = useState(false);
   const [successMessage, setSuccessMessage] = useState();
   const [errors, setErrors] = useState({});
-  const [generalError, setGeneralError]= useState();
-
+  const [generalError, setGeneralError]= useState(); 
+  
     useEffect(()=> {
       setErrors(function(lastErrors){
         return{
@@ -63,6 +63,12 @@ export function SignUp() {
         setApiProgress(false)
       }
   };
+  
+  const passwordRepeatError= useMemo(()=> {
+    if (password && password != passwordRepeat){
+      return passwordRepeatError = 'Password Missmatch';
+    }return '';
+  },[password,passwordRepeat]);
       
   return (
     <div className="container">
@@ -79,7 +85,7 @@ export function SignUp() {
 
           <Input id="password" label="Password" error={errors.password} onChange= {(event) => setPassword(event.target.value)} type = "password"/> 
 
-          <Input id="passwordRepeat" label="Password Repeat" error={errors.passwordRepeat} onChange= {(event) => setPasswordRepeat(event.target.value)} type = "password"/>
+          <Input id="passwordRepeat" label="Password Repeat" error={passwordRepeatError} onChange= {(event) => setPasswordRepeat(event.target.value)} type = "password"/>
           
             {successMessage && (
               <div className="alert alert-success">{successMessage}</div>
