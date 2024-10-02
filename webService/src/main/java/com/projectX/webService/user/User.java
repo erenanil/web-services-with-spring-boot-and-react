@@ -21,7 +21,7 @@ public class User {
     @GeneratedValue //delegate the operation of generating the ID to the database.
     long id;
     
-    @NotBlank
+    @NotBlank(message = "{projectX.constraint.username.notBlank}" )
     @Size(min=4, max=255)
     String username;
     
@@ -33,10 +33,10 @@ public class User {
 
 
     @Size(min=8, max=255)
-    @Pattern(regexp ="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$")
+    @Pattern(regexp ="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "{projectX.constraint.password.pattern}")
     String password;
 
-    
+     
     public long getId() {
         return id;
     }

@@ -44,7 +44,7 @@ export function SignUp() {
     setSuccessMessage();
     setGeneralError();
     setApiProgress(true);
-    
+
     try{
     const response = await signUp({
       username,
@@ -66,7 +66,7 @@ export function SignUp() {
   
   const passwordRepeatError= useMemo(()=> {
     if (password && password != passwordRepeat){
-      return passwordRepeatError = 'Password Missmatch';
+      return 'Password Missmatch';
     }return '';
   },[password,passwordRepeat]);
       
