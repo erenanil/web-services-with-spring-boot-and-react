@@ -2,9 +2,8 @@ package com.projectX.webService.user;
 
 import java.util.stream.Collectors;
 
-import java.util.HashMap;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.projectX.webService.error.ApiError;
 import com.projectX.webService.shared.GenericMessage;
+import com.projectX.webService.shared.Messages;
+import com.projectX.webService.user.exception.NotUniqueEmailException;
 
 import jakarta.validation.Valid;
 
@@ -26,17 +27,20 @@ public class UserController {
     @Autowired
     UserService userService;
 
+   
     @PostMapping("/api/v1/users")
     GenericMessage createUser(@Valid @RequestBody User user){
         userService.save(user);
-        return new GenericMessage("User is created.");
+        String message = Messages.getMessagesForLocale("projectX.create.user.success.message",LocaleContextHolder.getLocale());
+        return new GenericMessage(message);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity<ApiError> handleMethodArgNotValidEx(MethodArgumentNotValidException exception){
         ApiError apiError = new ApiError();
         apiError.setPath("/api/v1/users");
-        apiError.setMessage("Validation error");
+        String message = Messages.getMessagesForLocale("projectX.error.validation",LocaleContextHolder.getLocale());
+        apiError.setMessage(message);
         apiError.setStatus(400);
         var validationErrors = exception.getBindingResult().getFieldErrors().stream().collect(Collectors.toMap(FieldError::getField,FieldError::getDefaultMessage,(existing,replacing) -> existing ));
         apiError.setValidationErrors(validationErrors);
@@ -47,11 +51,9 @@ public class UserController {
     ResponseEntity<ApiError> handleNotUniqueEmailException(NotUniqueEmailException exception){
         ApiError apiError = new ApiError();
         apiError.setPath("/api/v1/users");
-        apiError.setMessage("Validation error");
+        apiError.setMessage(exception.getMessage());
         apiError.setStatus(400);
-        Map<String,String> validationErrors = new HashMap<>();
-        validationErrors.put("email", "E-mail in use");
-        apiError.setValidationErrors(validationErrors);
+        apiError.setValidationErrors(exception.getValidationErrors());
         return ResponseEntity.badRequest().body(apiError);
     }
 
