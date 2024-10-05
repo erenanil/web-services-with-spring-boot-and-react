@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.projectX.webService.user.exception.ActivationNotificationException;
 import com.projectX.webService.user.exception.NotUniqueEmailException;
 
 import jakarta.transaction.Transactional;
@@ -38,6 +39,8 @@ public class UserService {
             sendActivationEmail(user);
         } catch (DataIntegrityViolationException ex) {
             throw new NotUniqueEmailException();
+        }catch (MailException ex){
+            throw new ActivationNotificationException();
         }
     }
 
@@ -54,8 +57,8 @@ public class UserService {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.ethereal.email");
         mailSender.setPort(587);
-        mailSender.setUsername("mable.kiehn2@ethereal.email");
-        mailSender.setPassword("xDE9UewGgathmEZzPx");
+        mailSender.setUsername("cordie.breitenberg@ethereal.email");
+        mailSender.setPassword("ahP45dPe4KDC6kHC2q-");
 
         Properties properties = mailSender.getJavaMailProperties();
         properties.put("mail.smtp.starttls.enable", true);

@@ -16,6 +16,7 @@ import com.projectX.webService.error.ApiError;
 import com.projectX.webService.shared.GenericMessage;
 import com.projectX.webService.shared.Messages;
 import com.projectX.webService.user.dto.UserCreate;
+import com.projectX.webService.user.exception.ActivationNotificationException;
 import com.projectX.webService.user.exception.NotUniqueEmailException;
 
 import jakarta.validation.Valid;
@@ -25,6 +26,7 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    
 
     @PostMapping("/api/v1/users")
     GenericMessage createUser(@Valid @RequestBody UserCreate user) {
@@ -54,7 +56,15 @@ public class UserController {
         apiError.setMessage(exception.getMessage());
         apiError.setStatus(400);
         apiError.setValidationErrors(exception.getValidationErrors());
-        return ResponseEntity.badRequest().body(apiError);
+        return ResponseEntity.status(400).body(apiError);
     }
 
+    @ExceptionHandler(ActivationNotificationException.class)
+    ResponseEntity<ApiError> handleActivationNotificationException(ActivationNotificationException exception) {
+        ApiError apiError = new ApiError();
+        apiError.setPath("/api/v1/users");
+        apiError.setMessage(exception.getMessage());
+        apiError.setStatus(502);
+        return ResponseEntity.status(502).body(apiError);
+    }
 }
