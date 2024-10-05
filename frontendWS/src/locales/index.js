@@ -3,9 +3,10 @@ import { initReactI18next } from "react-i18next";
 import en from "./translations/en.json"
 import tr from "./translations/tr.json"
 
-i18n
-  .use(initReactI18next) 
-  .init({
+const initialLanguage = localStorage.getItem('lang') || navigator.language || 'en'
+
+export const i18nInstance = i18n.use(initReactI18next) 
+  i18nInstance.init({
     resources: {
       en: {
         translation: en
@@ -14,7 +15,7 @@ i18n
         translation: tr
       }
     },
-    fallbackLng: "tr",
+    fallbackLng: initialLanguage,
     interpolation: {
       escapeValue: false 
     }

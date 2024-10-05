@@ -8,9 +8,9 @@ import com.projectX.webService.shared.Messages;
 
 public class NotUniqueEmailException extends RuntimeException {
     public NotUniqueEmailException(){
-        super(Messages.getMessagesForLocale("projectX.error.validation", LocaleContextHolder.getLocale()));
+        super(Messages.getMessageForLocale("projectX.error.validation", LocaleContextHolder.getLocale()));
     }
     public Map<String,String> getValidationErrors(){
-        return Collections.singletonMap("email" , Messages.getMessagesForLocale("projectX.constraint.email.notUnique",LocaleContextHolder.getLocale()));
+        return Collections.singletonMap("email" , Messages.getMessageForLocale("projectX.constraint.email.notunique",LocaleContextHolder.getLocale()));
     }
 }

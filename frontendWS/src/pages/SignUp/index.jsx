@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { signUp } from "./api";
 import { Input } from "./components/Input";
 import { useTranslation } from "react-i18next";
+import {LanguageSelector} from "../../shared/components/LanguageSelector";
 
 export function SignUp() {
   const [username, setUsername] = useState();
@@ -12,7 +13,9 @@ export function SignUp() {
   const [successMessage, setSuccessMessage] = useState();
   const [errors, setErrors] = useState({});
   const [generalError, setGeneralError]= useState(); 
+  
   const {t}=useTranslation();
+  
     useEffect(()=> {
       setErrors(function(lastErrors){
         return{
@@ -66,7 +69,7 @@ export function SignUp() {
   };
   
   const passwordRepeatError= useMemo(()=> {
-    if (password && password != passwordRepeat){
+    if (password && password !== passwordRepeat){
       return t('passwordMismatch');
     }return '';
   },[password,passwordRepeat]);
@@ -113,6 +116,7 @@ export function SignUp() {
             </div>
           </div>
         </form>
+        <LanguageSelector />
       </div>
     </div>
   );

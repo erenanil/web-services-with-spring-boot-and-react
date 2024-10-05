@@ -1,16 +1,11 @@
 package com.projectX.webService.user;
 
-import com.projectX.webService.user.validation.UniqueEmail;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 
 @Entity //When we use this annotation, it will assume that this class has a matching table in the database, or it will create one.
 @Table(name = "users", uniqueConstraints = @UniqueConstraint (columnNames = {"email"}))
@@ -21,22 +16,18 @@ public class User {
     @GeneratedValue //delegate the operation of generating the ID to the database.
     long id;
     
-    @NotBlank(message = "{projectX.constraint.username.notBlank}" )
-    @Size(min=4, max=255)
     String username;
     
-    
-    @NotBlank
-    @Email
-    @UniqueEmail
     String email;
 
-
-    @Size(min=8, max=255)
-    @Pattern(regexp ="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "{projectX.constraint.password.pattern}")
     String password;
 
-     
+    private boolean active = false;
+    
+    private String activationToken;
+    
+    
+    
     public long getId() {
         return id;
     }
@@ -45,6 +36,7 @@ public class User {
         this.id = id;
     }
 
+    
 
     public String getUsername() {
         return username;
@@ -73,6 +65,27 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+
+
+    public String getActivationToken() {
+        return activationToken;
+    }
+
+    public void setActivationToken(String activationToken) {
+        this.activationToken = activationToken;
+    }
+
     
 
 }
