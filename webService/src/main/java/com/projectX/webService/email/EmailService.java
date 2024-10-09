@@ -25,7 +25,7 @@ public class EmailService {
     public void initialize() {
         this.mailSender = new JavaMailSenderImpl();
         System.out.println("-----------------------");
-        System.out.println(projectXProperties.getEmail().password());
+        System.out.println(projectXProperties.getClient());
         System.out.println("--------------------------");
         mailSender.setHost(projectXProperties.getEmail().host());
         mailSender.setPort(projectXProperties.getEmail().port());
