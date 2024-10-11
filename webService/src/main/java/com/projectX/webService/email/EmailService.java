@@ -59,7 +59,7 @@ public class EmailService {
            
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+        MimeMessageHelper message = new MimeMessageHelper(mimeMessage,"UTF-8");
 
         try {
             message.setFrom(projectXProperties.getEmail().from());
