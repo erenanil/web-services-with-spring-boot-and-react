@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.projectX.webService.email.EmailService;
 import com.projectX.webService.user.exception.ActivationNotificationException;
+import com.projectX.webService.user.exception.InvalidTokenException;
 import com.projectX.webService.user.exception.NotUniqueEmailException;
 
 import jakarta.transaction.Transactional;
@@ -41,6 +42,16 @@ public class UserService {
         }catch (MailException ex){
             throw new ActivationNotificationException();
         }
+    }
+
+    public void activateUser(String token) {
+        User inDB = userRepository.findByActivationToken(token);
+        if(inDB == null){
+            throw new InvalidTokenException();
+        }
+        inDB.setActive(true);
+        inDB.setActivationToken(null);
+        userRepository.save(inDB);
     }
     
 }

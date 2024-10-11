@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +19,7 @@ import com.projectX.webService.shared.GenericMessage;
 import com.projectX.webService.shared.Messages;
 import com.projectX.webService.user.dto.UserCreate;
 import com.projectX.webService.user.exception.ActivationNotificationException;
+import com.projectX.webService.user.exception.InvalidTokenException;
 import com.projectX.webService.user.exception.NotUniqueEmailException;
 
 import jakarta.validation.Valid;
@@ -34,6 +37,13 @@ public class UserController {
         String message = Messages.getMessageForLocale("projectX.create.user.success.message",
                 LocaleContextHolder.getLocale());
         return new GenericMessage(message);
+    } 
+
+    @PatchMapping("/api/v1/users/{token}/active")
+    GenericMessage activateUser(@PathVariable String token){
+        userService.activateUser(token);
+        String message = Messages.getMessageForLocale("projectx.activate.user.success.message",LocaleContextHolder.getLocale());
+        return new GenericMessage(message);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -48,6 +58,7 @@ public class UserController {
         apiError.setValidationErrors(validationErrors);
         return ResponseEntity.badRequest().body(apiError);
     }
+
 
     @ExceptionHandler(NotUniqueEmailException.class)
     ResponseEntity<ApiError> handleNotUniqueEmailException(NotUniqueEmailException exception) {
@@ -66,5 +77,14 @@ public class UserController {
         apiError.setMessage(exception.getMessage());
         apiError.setStatus(502);
         return ResponseEntity.status(502).body(apiError);
+    }
+
+    @ExceptionHandler(InvalidTokenException.class)
+    ResponseEntity<ApiError> handleInvalidTokenException(InvalidTokenException exception) {
+        ApiError apiError = new ApiError();
+        apiError.setPath("/api/v1/users");
+        apiError.setMessage(exception.getMessage());
+        apiError.setStatus(400);
+        return ResponseEntity.status(400).body(apiError);
     }
 }
