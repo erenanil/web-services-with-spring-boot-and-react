@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "../../assets/letter-x-alphabet-in-brush-style-png.png";
+import logo from "@/assets/letter-x-alphabet-in-brush-style-png.png";
 import { useTranslation } from "react-i18next";
 
 export function NavBar() {
