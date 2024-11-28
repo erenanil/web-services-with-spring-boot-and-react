@@ -8,7 +8,7 @@ import {fileURLToPath,URL} from "node:url"
 export default defineConfig({
   plugins: [react()],
 
-  //added proxy. and now we don't need a @CrossOrigin anotation in backend 
+  //added proxy. and now we don't need a @CrossOrigin annotation in backend 
   server:{
     proxy:{
       '/api': 'http://localhost:8080'

@@ -1,5 +1,7 @@
 package com.projectX.webService.user;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mail.MailException;
@@ -53,5 +55,10 @@ public class UserService {
         inDB.setActivationToken(null);
         userRepository.save(inDB);
     }
+
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
+
     
 }
