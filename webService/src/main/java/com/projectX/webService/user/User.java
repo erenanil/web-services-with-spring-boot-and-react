@@ -1,6 +1,8 @@
 package com.projectX.webService.user;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -20,14 +22,27 @@ public class User {
     
     String email;
 
+    @JsonIgnore
     String password;
 
+    @JsonIgnore
     private boolean active = false;
     
+    @JsonIgnore
     private String activationToken;
+
+    String image ;
     
     
     
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public long getId() {
         return id;
     }
